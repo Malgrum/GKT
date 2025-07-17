@@ -78,16 +78,17 @@ async def update_message(interaction):
         except Exception as e:
             print(f"❌ Erreur: {e}")
 
-@bot.command(name="creer_tournoi")
+@bot.command(name="event")
 @commands.has_permissions(administrator=True)
-async def creer_tournoi(ctx, lieu: str, date: str, max_joueurs: int):
+async def creer_tournoi(ctx, titre: str, lieu: str, date: str, max_joueurs: int):
+    tournoi["titre"] = titre
     tournoi["lieu"] = lieu
     tournoi["date"] = date
     tournoi["max_joueurs"] = max_joueurs
     tournoi["inscrits"] = []
     tournoi["attente"] = []
 
-    embed = discord.Embed(title="🏆 Tournoi", color=discord.Color.blue())
+    embed = discord.Embed(title="🏆 Titre", value=titre, color=discord.Color.blue())
     embed.add_field(name="📍 Lieu", value=lieu, inline=True)
     embed.add_field(name="📅 Date", value=date, inline=True)
     embed.add_field(name="👥 Inscrits", value=f"0/{max_joueurs}", inline=False)

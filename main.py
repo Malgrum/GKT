@@ -4,6 +4,7 @@ from discord.ui import Button, View
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.guilds = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
@@ -70,8 +71,12 @@ async def update_message(interaction):
         try:
             msg = await channel.fetch_message(tournoi["message_id"])
             await msg.edit(embed=embed, view=TournoiView())
-        except:
-            pass
+        except discord.Forbidden:
+            print("❌ Bot manque de permissions pour modifier le message")
+        except discord.NotFound:
+            print("❌ Message original introuvable")
+        except Exception as e:
+            print(f"❌ Erreur: {e}")
 
 @bot.command(name="creer_tournoi")
 @commands.has_permissions(administrator=True)
@@ -89,7 +94,13 @@ async def creer_tournoi(ctx, lieu: str, date: str, max_joueurs: int):
     embed.add_field(name="✅ Joueurs", value="Aucun", inline=False)
     embed.add_field(name="⏳ Attente", value="Aucune", inline=False)
 
-    message = await ctx.send(embed=embed, view=TournoiView())
-    tournoi["message_id"] = message.id
+    try:
+        message = await ctx.send(embed=embed, view=TournoiView())
+        tournoi["message_id"] = message.id
+        print("✅ Tournoi créé avec succès!")
+    except discord.Forbidden:
+        await ctx.send("❌ Je n'ai pas les permissions pour envoyer des messages avec embed.")
+    except Exception as e:
+        await ctx.send(f"❌ Erreur lors de la création: {e}")
 
 bot.run("MTM5NTM1Mjk0MTg3OTIzNDY2MA.GyVJBj.IyqeHOmKhTdvo_JGfYgO2ptYR5z2oQ9qVoqoro")

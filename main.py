@@ -1,3 +1,4 @@
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -10,24 +11,24 @@ intents.guilds = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-tournoi = {
-    "lieu": None,
-    "date": None,
-    "max_joueurs": 0,
-    "inscrits": [],
-    "attente": [],
-    "message_id": None
-}
+# Dictionnaire pour stocker plusieurs tournois (clé = message_id)
+tournois = {}
 
 authorized_accounts = []
 
 class TournoiView(View):
-    def __init__(self):
+    def __init__(self, message_id):
         super().__init__(timeout=None)
+        self.message_id = message_id
 
     @discord.ui.button(label="✅ Rejoindre", style=discord.ButtonStyle.green)
     async def rejoindre(self, interaction: discord.Interaction, button: discord.ui.Button):
         user = interaction.user.name
+        tournoi = tournois.get(self.message_id)
+        
+        if not tournoi:
+            await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
+            return
 
         if user in tournoi["inscrits"]:
             await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
@@ -38,13 +39,18 @@ class TournoiView(View):
             await interaction.response.send_message("Tu es inscrit au tournoi !", ephemeral=True)
         else:
             tournoi["attente"].append(user)
-            await interaction.response.send_message("Tournoi complet, tu es en liste d’attente ⏳", ephemeral=True)
+            await interaction.response.send_message("Tournoi complet, tu es en liste d'attente ⏳", ephemeral=True)
 
-        await update_message(interaction)
+        await update_message(interaction, self.message_id)
 
     @discord.ui.button(label="❌ Se désinscrire", style=discord.ButtonStyle.red)
     async def desinscrire(self, interaction: discord.Interaction, button: discord.ui.Button):
         user = interaction.user.name
+        tournoi = tournois.get(self.message_id)
+        
+        if not tournoi:
+            await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
+            return
 
         if user in tournoi["inscrits"]:
             tournoi["inscrits"].remove(user)
@@ -56,14 +62,18 @@ class TournoiView(View):
         elif user in tournoi["attente"]:
             tournoi["attente"].remove(user)
         else:
-            await interaction.response.send_message("Tu n’es pas inscrit.", ephemeral=True)
+            await interaction.response.send_message("Tu n'es pas inscrit.", ephemeral=True)
             return
 
         await interaction.response.send_message("Tu as été désinscrit.", ephemeral=True)
-        await update_message(interaction)
+        await update_message(interaction, self.message_id)
 
-async def update_message(interaction):
-    embed = discord.Embed(title="🏆 Tournoi", color=discord.Color.blue())
+async def update_message(interaction, message_id):
+    tournoi = tournois.get(message_id)
+    if not tournoi:
+        return
+        
+    embed = discord.Embed(title=f"🏆 {tournoi['titre']}", color=discord.Color.blue())
     embed.add_field(name="📍 Lieu", value=tournoi["lieu"], inline=True)
     embed.add_field(name="📅 Date", value=tournoi["date"], inline=True)
     embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{tournoi['max_joueurs']}", inline=False)
@@ -71,28 +81,20 @@ async def update_message(interaction):
     embed.add_field(name="⏳ Attente", value="\n".join(tournoi["attente"]) or "Aucune", inline=False)
 
     channel = interaction.channel
-    if tournoi["message_id"]:
-        try:
-            msg = await channel.fetch_message(tournoi["message_id"])
-            await msg.edit(embed=embed, view=TournoiView())
-        except discord.Forbidden:
-            print("❌ Bot manque de permissions pour modifier le message")
-        except discord.NotFound:
-            print("❌ Message original introuvable")
-        except Exception as e:
-            print(f"❌ Erreur: {e}")
+    try:
+        msg = await channel.fetch_message(message_id)
+        await msg.edit(embed=embed, view=TournoiView(message_id))
+    except discord.Forbidden:
+        print("❌ Bot manque de permissions pour modifier le message")
+    except discord.NotFound:
+        print("❌ Message original introuvable")
+    except Exception as e:
+        print(f"❌ Erreur: {e}")
 
 @bot.tree.command(name="event", description="Crée un tournoi")
 @commands.has_permissions(administrator=True)
 @app_commands.describe(titre="Titre du tournoi", lieu="Lieu du tournoi", date="Date du tournoi (format libre)", max_joueurs="Nombre maximum de joueurs")
 async def creer_tournoi(interaction: discord.Interaction, titre: str, lieu: str, date: str, max_joueurs: int):
-    tournoi["titre"] = titre
-    tournoi["lieu"] = lieu
-    tournoi["date"] = date
-    tournoi["max_joueurs"] = max_joueurs
-    tournoi["inscrits"] = []
-    tournoi["attente"] = []
-
     embed = discord.Embed(title=f"🏆 {titre}", color=discord.Color.blue())
     embed.add_field(name="📍 Lieu", value=lieu, inline=True)
     embed.add_field(name="📅 Date", value=date, inline=True)
@@ -101,10 +103,24 @@ async def creer_tournoi(interaction: discord.Interaction, titre: str, lieu: str,
     embed.add_field(name="⏳ Attente", value="Aucune", inline=False)
 
     try:
-        await interaction.response.send_message(embed=embed, view=TournoiView())
+        # Créer une vue temporaire pour envoyer le message
+        temp_view = TournoiView(None)
+        await interaction.response.send_message(embed=embed, view=temp_view)
         message = await interaction.original_response()
-        tournoi["message_id"] = message.id
-        print("✅ Tournoi créé avec succès!")
+        
+        # Créer les données du tournoi avec l'ID du message
+        tournois[message.id] = {
+            "titre": titre,
+            "lieu": lieu,
+            "date": date,
+            "max_joueurs": max_joueurs,
+            "inscrits": [],
+            "attente": []
+        }
+        
+        # Mettre à jour avec la bonne vue qui a le message_id
+        await message.edit(embed=embed, view=TournoiView(message.id))
+        print(f"✅ Tournoi '{titre}' créé avec succès!")
     except discord.Forbidden:
         await interaction.response.send_message("❌ Je n'ai pas les permissions pour envoyer des messages avec embed.")
     except Exception as e:

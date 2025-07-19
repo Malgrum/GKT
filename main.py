@@ -1,8 +1,10 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 from discord.ui import Button, View
 
-intents = discord.Intents.default()
+
+intents = discord.Intents.all()
 intents.message_content = True
 intents.guilds = True
 
@@ -16,6 +18,8 @@ tournoi = {
     "attente": [],
     "message_id": None
 }
+
+authorized_accounts = []
 
 class TournoiView(View):
     def __init__(self):
@@ -78,9 +82,10 @@ async def update_message(interaction):
         except Exception as e:
             print(f"❌ Erreur: {e}")
 
-@bot.command(name="event")
+@bot.tree.command(name="event", description="Crée un tournoi")
 @commands.has_permissions(administrator=True)
-async def creer_tournoi(ctx, titre: str, lieu: str, date: str, max_joueurs: int):
+@app_commands.describe(titre="Titre du tournoi", lieu="Lieu du tournoi", date="Date du tournoi (format libre)", max_joueurs="Nombre maximum de joueurs")
+async def creer_tournoi(interaction: discord.Interaction, titre: str, lieu: str, date: str, max_joueurs: int):
     tournoi["titre"] = titre
     tournoi["lieu"] = lieu
     tournoi["date"] = date
@@ -96,12 +101,21 @@ async def creer_tournoi(ctx, titre: str, lieu: str, date: str, max_joueurs: int)
     embed.add_field(name="⏳ Attente", value="Aucune", inline=False)
 
     try:
-        message = await ctx.send(embed=embed, view=TournoiView())
+        await interaction.response.send_message(embed=embed, view=TournoiView())
+        message = await interaction.original_response()
         tournoi["message_id"] = message.id
         print("✅ Tournoi créé avec succès!")
     except discord.Forbidden:
-        await ctx.send("❌ Je n'ai pas les permissions pour envoyer des messages avec embed.")
+        await interaction.response.send_message("❌ Je n'ai pas les permissions pour envoyer des messages avec embed.")
     except Exception as e:
-        await ctx.send(f"❌ Erreur lors de la création: {e}")
+        await interaction.response.send_message(f"❌ Erreur lors de la création: {e}")
+
+@bot.event
+async def on_ready():
+    try:
+        synced = await bot.tree.sync()
+        print(f"{len(synced)} commande(s) sync")
+    except Exception as e:
+        print(e)
 
 bot.run("MTM5NTM1Mjk0MTg3OTIzNDY2MA.GyVJBj.IyqeHOmKhTdvo_JGfYgO2ptYR5z2oQ9qVoqoro")

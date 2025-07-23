@@ -33,7 +33,7 @@ class TournoiView(View):
             await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
         elif user in tournoi["attente"]:
             await interaction.response.send_message("Tu es déjà en liste d'attente.", ephemeral=True)
-        elif len(tournoi["inscrits"]) < tournoi["max_joueurs"]:
+        elif tournoi["max_joueurs"] is None or len(tournoi["inscrits"]) < tournoi["max_joueurs"]:
             tournoi["inscrits"].append(user)
             await interaction.response.send_message("Tu es inscrit au tournoi !", ephemeral=True)
         else:
@@ -75,7 +75,8 @@ async def update_message(interaction, message_id):
     embed = discord.Embed(title=f"🏆 {tournoi['titre']}", color=discord.Color.blue())
     embed.add_field(name="📍 Lieu", value=tournoi["lieu"], inline=True)
     embed.add_field(name="📅 Date", value=tournoi["date"], inline=True)
-    embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{tournoi['max_joueurs']}", inline=False)
+    max_display = "∞" if tournoi['max_joueurs'] is None else str(tournoi['max_joueurs'])
+    embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{max_display}", inline=False)
     embed.add_field(name="✅ Joueurs", value="\n".join(tournoi["inscrits"]) or "Aucun", inline=False)
     embed.add_field(name="⏳ Attente", value="\n".join(tournoi["attente"]) or "Aucune", inline=False)
 
@@ -92,19 +93,20 @@ async def update_message(interaction, message_id):
 
 @bot.tree.command(name="event", description="Crée un tournoi")
 @commands.has_permissions(administrator=True)
-@app_commands.describe(titre="Titre du tournoi", lieu="Lieu du tournoi", date="Date du tournoi (format libre)", max_joueurs="Nombre maximum de joueurs")
-async def creer_tournoi(interaction: discord.Interaction, titre: str, lieu: str, date: str, max_joueurs: int):
+@app_commands.describe(titre="Titre du tournoi", lieu="Lieu du tournoi", date="Date du tournoi (format libre)", max_joueurs="Nombre maximum de joueurs (optionnel, infini si vide)")
+async def creer_tournoi(interaction: discord.Interaction, titre: str, lieu: str, date: str, max_joueurs: int = None):
+    max_display = "∞" if max_joueurs is None else str(max_joueurs)
     embed = discord.Embed(title=f"🏆 {titre}", color=discord.Color.blue())
     embed.add_field(name="📍 Lieu", value=lieu, inline=True)
     embed.add_field(name="📅 Date", value=date, inline=True)
-    embed.add_field(name="👥 Inscrits", value=f"0/{max_joueurs}", inline=False)
+    embed.add_field(name="👥 Inscrits", value=f"0/{max_display}", inline=False)
     embed.add_field(name="✅ Joueurs", value="Aucun", inline=False)
     embed.add_field(name="⏳ Attente", value="Aucune", inline=False)
 
     try:
         # Créer une vue temporaire pour envoyer le message
         temp_view = TournoiView(None)
-        await interaction.response.send_message(embed=embed, view=temp_view)
+        await interaction.response.send_message(content="@everyone", embed=embed, view=temp_view)
         message = await interaction.original_response()
         
         # Créer les données du tournoi avec l'ID du message

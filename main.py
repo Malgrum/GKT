@@ -183,4 +183,4 @@ async def on_ready():
     await bot.tree.sync()
     print(f"🚀 Bot en ligne : {bot.user}")
 
-bot.run("TON_TOKEN_ICI")
+bot.run("MTM5NTM1Mjk0MTg3OTIzNDY2MA.GvZgm5.7PTvq-Qd6adDJW_KgPwvN6w_fdJixESYyPOR3U")

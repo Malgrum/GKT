@@ -51,7 +51,9 @@ class WarhammerSelect(Select):
 
     async def callback(self, interaction: discord.Interaction):
         tournoi = tournois.get(self.message_id)
-        if not tournoi: return
+        if not tournoi: 
+            await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
+            return
 
         choices_str = ", ".join(self.values)
         user_entry = f"{interaction.user.mention} ({choices_str})"
@@ -75,7 +77,9 @@ class TournoiView(View):
     @discord.ui.button(label="✅ Rejoindre", style=discord.ButtonStyle.green, custom_id="join_btn")
     async def rejoindre(self, interaction: discord.Interaction, button: discord.ui.Button):
         tournoi = tournois.get(self.message_id)
-        if not tournoi: return
+        if not tournoi: 
+            await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
+            return
 
         user_id = str(interaction.user.id)
         all_participants = tournoi["inscrits"] + tournoi["attente"]
@@ -103,15 +107,21 @@ class TournoiView(View):
     @discord.ui.button(label="❌ Se désinscrire", style=discord.ButtonStyle.red, custom_id="leave_btn")
     async def desinscrire(self, interaction: discord.Interaction, button: discord.ui.Button):
         tournoi = tournois.get(self.message_id)
-        if not tournoi: return
+        if not tournoi: 
+            await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
+            return
+            
         user_id = str(interaction.user.id)
         removed = False
         for lst in ["inscrits", "attente"]:
             for entry in tournoi[lst]:
                 if user_id in entry:
                     tournoi[lst].remove(entry)
-                    removed = True; break
-            if removed: break
+                    removed = True
+                    break
+            if removed: 
+                break
+                
         if removed:
             if tournoi["attente"] and len(tournoi["inscrits"]) < (tournoi["max_joueurs"] or 9999):
                 tournoi["inscrits"].append(tournoi["attente"].pop(0))
@@ -124,15 +134,22 @@ class TournoiView(View):
 async def update_message(interaction, message_id):
     tournoi = tournois.get(message_id)
     if not tournoi: return
-    embed = discord.Embed(title=tournoi['titre'], color=tournoi.get('color', 0x3498db))
-    embed.add_field(name="📍 Lieu", value=tournoi["lieu"], inline=True)
-    embed.add_field(name="📅 Date", value=tournoi["date"], inline=True)
-    max_d = "∞" if tournoi['max_joueurs'] is None else str(tournoi['max_joueurs'])
-    embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{max_d}", inline=False)
-    embed.add_field(name="✅ Joueurs", value="\n".join(tournoi["inscrits"]) or "Aucun", inline=False)
-    embed.add_field(name="⏳ Attente", value="\n".join(tournoi["attente"]) or "Aucune", inline=False)
-    msg = await interaction.channel.fetch_message(message_id)
-    await msg.edit(embed=embed, view=TournoiView(message_id))
+    
+    try:
+        embed = discord.Embed(title=tournoi['titre'], color=tournoi.get('color', 0x3498db))
+        embed.add_field(name="📍 Lieu", value=tournoi["lieu"], inline=True)
+        embed.add_field(name="📅 Date", value=tournoi["date"], inline=True)
+        max_d = "∞" if tournoi['max_joueurs'] is None else str(tournoi['max_joueurs'])
+        embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{max_d}", inline=False)
+        embed.add_field(name="✅ Joueurs", value="\n".join(tournoi["inscrits"]) or "Aucun", inline=False)
+        embed.add_field(name="⏳ Attente", value="\n".join(tournoi["attente"]) or "Aucune", inline=False)
+        
+        msg = await interaction.channel.fetch_message(message_id)
+        await msg.edit(embed=embed, view=TournoiView(message_id))
+    except discord.NotFound:
+        print(f"Message {message_id} introuvable")
+    except Exception as e:
+        print(f"Erreur update_message: {e}")
 
 # --- COMMANDE /EVENT ---
 @bot.tree.command(name="event", description="Créer un nouvel événement")
@@ -183,4 +200,5 @@ async def on_ready():
     await bot.tree.sync()
     print(f"🚀 Bot en ligne : {bot.user}")
 
-bot.run("TON_TOKEN_ICI")
+# ✅ CORRECTION PRINCIPALE
+bot.run(os.getenv('TOKEN'))

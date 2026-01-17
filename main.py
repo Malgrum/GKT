@@ -5,6 +5,22 @@ from discord.ui import Button, View, Select
 from discord.app_commands import Choice
 import json
 import os
+from flask import Flask
+from threading import Thread
+
+# --- KEEP ALIVE (évite mise en veille Render) ---
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "🤖 Bot Discord en ligne !"
+
+def run():
+    app.run(host='0.0.0.0', port=10000)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
 
 # --- CONFIGURATION ---
 intents = discord.Intents.all()
@@ -200,5 +216,6 @@ async def on_ready():
     await bot.tree.sync()
     print(f"🚀 Bot en ligne : {bot.user}")
 
-# ✅ CORRECTION PRINCIPALE
-bot.run(os.getenv('TON_TOKEN_ICI'))
+# ✅ LANCEMENT DU BOT AVEC KEEP-ALIVE
+keep_alive()
+bot.run(os.getenv('TOKEN'))

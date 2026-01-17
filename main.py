@@ -201,4 +201,4 @@ async def on_ready():
     print(f"🚀 Bot en ligne : {bot.user}")
 
 # ✅ CORRECTION PRINCIPALE
-bot.run(os.getenv('TOKEN'))
+bot.run(os.getenv('TON_TOKEN_ICI'))

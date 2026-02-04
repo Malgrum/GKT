@@ -78,6 +78,31 @@ def generer_tableau_warhammer(tournoi):
     
     return tableau if tableau else "Aucun joueur inscrit"
 
+# --- FONCTION POUR CRÉER LE TABLEAU FF14 ---
+def generer_tableau_ff14(tournoi):
+    """Génère un tableau organisé par rôle pour FF14"""
+    roles = {
+        "DPS": {"emoji": "⚔️", "joueurs": []},
+        "HEALER": {"emoji": "💉", "joueurs": []},
+        "TANK": {"emoji": "🛡️", "joueurs": []}
+    }
+
+    for entry in tournoi["inscrits"]:
+        if "(" in entry and ")" in entry:
+            mention = entry.split("(")[0].strip()
+            role = entry.split("(")[1].split(")")[0].strip()
+            if role in roles:
+                roles[role]["joueurs"].append(mention)
+
+    tableau = ""
+    for role_code, info in roles.items():
+        if info["joueurs"]:
+            tableau += f"\n{info['emoji']} **{role_code}** ({len(info['joueurs'])} joueur{'s' if len(info['joueurs']) > 1 else ''})\n"
+            tableau += "\n".join([f"• {joueur}" for joueur in info["joueurs"]])
+            tableau += "\n"
+
+    return tableau if tableau else "Aucun joueur inscrit"
+
 # --- MENU DE SÉLECTION MULTIPLE WARHAMMER ---
 class WarhammerSelect(Select):
     def __init__(self, message_id):
@@ -121,6 +146,47 @@ class WarhammerSelect(Select):
         sauvegarder_tournois()
         await update_message(interaction, self.message_id)
 
+# --- MENU DE SÉLECTION FF14 ---
+class FF14Select(Select):
+    def __init__(self, message_id):
+        options = [
+            discord.SelectOption(label="DPS", emoji="⚔️", value="DPS"),
+            discord.SelectOption(label="HEALER", emoji="💉", value="HEALER"),
+            discord.SelectOption(label="TANK", emoji="🛡️", value="TANK"),
+        ]
+        super().__init__(
+            placeholder="Choisissez votre rôle...",
+            options=options,
+            min_values=1,
+            max_values=1
+        )
+        self.message_id = message_id
+
+    async def callback(self, interaction: discord.Interaction):
+        tournoi = tournois.get(self.message_id)
+        if not tournoi:
+            await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
+            return
+
+        user_id = str(interaction.user.id)
+        all_participants = tournoi["inscrits"] + tournoi["attente"]
+        if any(user_id in p for p in all_participants):
+            await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
+            return
+
+        role = self.values[0]
+        user_entry = f"{interaction.user.mention} ({role})"
+
+        if tournoi["max_joueurs"] is None or len(tournoi["inscrits"]) < tournoi["max_joueurs"]:
+            tournoi["inscrits"].append(user_entry)
+            await interaction.response.send_message(f"✅ Inscrit en : **{role}** !", ephemeral=True)
+        else:
+            tournoi["attente"].append(user_entry)
+            await interaction.response.send_message(f"⏳ Tournoi complet, mis en attente ({role})", ephemeral=True)
+
+        sauvegarder_tournois()
+        await update_message(interaction, self.message_id)
+
 # --- INTERFACE PRINCIPALE ---
 class TournoiView(View):
     def __init__(self, message_id):
@@ -139,8 +205,12 @@ class TournoiView(View):
         if any(user_id in p for p in all_participants):
             await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
             return
-
-        if tournoi.get("type") == "warhammer":
+        
+        if tournoi.get("type") == "ff14":
+            view = View()
+            view.add_item(FF14Select(self.message_id))
+            await interaction.response.send_message("🎮 Sélectionnez votre rôle FF14 :", view=view, ephemeral=True)
+        elif tournoi.get("type") == "warhammer":
             view = View()
             view.add_item(WarhammerSelect(self.message_id))
             await interaction.response.send_message("🎮 Sélectionnez vos formats Warhammer :", view=view, ephemeral=True)
@@ -205,6 +275,9 @@ async def update_message(interaction, message_id):
             # Affichage en tableau par jeu
             tableau = generer_tableau_warhammer(tournoi)
             embed.add_field(name="⚔️ Répartition par jeu", value=tableau, inline=False)
+        elif tournoi.get("type") == "ff14":
+            tableau = generer_tableau_ff14(tournoi)
+            embed.add_field(name="🎮 Répartition par rôle", value=tableau, inline=False)
         else:
             # Affichage classique
             embed.add_field(name="✅ Joueurs", value="\n".join(tournoi["inscrits"]) or "Aucun", inline=False)
@@ -232,7 +305,8 @@ async def update_message(interaction, message_id):
 )
 @app_commands.choices(template=[
     Choice(name="🏆 Tournoi (Standard / Jeu unique)", value="standard"),
-    Choice(name="⚔️ Warhammer (Multiformat)", value="warhammer")
+    Choice(name="⚔️ Warhammer (Multiformat)", value="warhammer"),
+    Choice(name="🎮 FF14 (Rôles)", value="ff14")
 ])
 @commands.has_permissions(administrator=True)
 async def creer_tournoi(interaction: discord.Interaction, template: Choice[str], titre: str, lieu: str, date: str, max_joueurs: int = None):
@@ -240,9 +314,12 @@ async def creer_tournoi(interaction: discord.Interaction, template: Choice[str],
     if template.value == "standard":
         full_title = f"🏆 {titre}"
         color = 0x3498db  # Bleu
-    else:
+    elif template.value == "warhammer":
         full_title = f"⚔️ [WARHAMMER] {titre}"
         color = 0x2c3e50  # Anthracite
+    else:
+        full_title = f"🎮 [FF14] {titre}"
+        color = 0x6c5ce7  # Violet
 
     embed = discord.Embed(title=full_title, color=color)
     embed.add_field(name="📍 Lieu", value=lieu, inline=True)
@@ -251,6 +328,8 @@ async def creer_tournoi(interaction: discord.Interaction, template: Choice[str],
     
     if template.value == "warhammer":
         embed.add_field(name="⚔️ Répartition par jeu", value="Aucun joueur inscrit", inline=False)
+    elif template.value == "ff14":
+        embed.add_field(name="🎮 Répartition par rôle", value="Aucun joueur inscrit", inline=False)
     else:
         embed.add_field(name="✅ Joueurs", value="Aucun", inline=False)
 

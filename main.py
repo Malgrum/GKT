@@ -84,7 +84,9 @@ def generer_tableau_ff14(tournoi):
     roles = {
         "DPS": {"emoji": "⚔️", "joueurs": []},
         "HEALER": {"emoji": "💉", "joueurs": []},
-        "TANK": {"emoji": "🛡️", "joueurs": []}
+        "TANK": {"emoji": "🛡️", "joueurs": []},
+        "Tout Role": {"emoji": "🎮", "joueurs": []},
+        "BENCH": {"emoji": "🪑", "joueurs": []}
     }
 
     for entry in tournoi["inscrits"]:
@@ -153,6 +155,8 @@ class FF14Select(Select):
             discord.SelectOption(label="DPS", emoji="⚔️", value="DPS"),
             discord.SelectOption(label="HEALER", emoji="💉", value="HEALER"),
             discord.SelectOption(label="TANK", emoji="🛡️", value="TANK"),
+            discord.SelectOption(label="Tout Role", emoji="🎮", value="Tout Role"),
+            discord.SelectOption(label="BENCH", emoji="🪑", value="BENCH"),
         ]
         super().__init__(
             placeholder="Choisissez votre rôle...",

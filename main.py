@@ -5,8 +5,12 @@ from discord.ui import Button, View, Select
 from discord.app_commands import Choice
 import json
 import os
+import re
 from flask import Flask
 from threading import Thread
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # --- KEEP ALIVE (évite mise en veille Render) ---
 app = Flask('')
@@ -19,7 +23,7 @@ def run():
     app.run(host='0.0.0.0', port=10000)
 
 def keep_alive():
-    t = Thread(target=run)
+    t = Thread(target=run, daemon=True)
     t.start()
 
 # --- CONFIGURATION ---
@@ -29,16 +33,31 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 tournois = {}
 TOURNOIS_FILE = "tournois.json"
 
+
+def _extract_user_id_from_entry(entry: str) -> str | None:
+    match = re.search(r"<@!?(\d+)>", entry)
+    return match.group(1) if match else None
+
+
+def _user_already_registered(tournoi: dict, user_id: str) -> bool:
+    all_participants = tournoi["inscrits"] + tournoi["attente"]
+    return any(_extract_user_id_from_entry(entry) == user_id for entry in all_participants)
+
 # --- PERSISTANCE ---
 def charger_tournois():
     global tournois
     if os.path.exists(TOURNOIS_FILE):
         try:
+            if os.path.getsize(TOURNOIS_FILE) == 0:
+                tournois = {}
+                print("ℹ️ Fichier tournois vide, initialisation d'un état propre.")
+                return
             with open(TOURNOIS_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 tournois = {int(k): v for k, v in data.items()}
                 print(f"✅ {len(tournois)} tournois chargés.")
         except Exception as e:
+            tournois = {}
             print(f"❌ Erreur chargement: {e}")
 
 def sauvegarder_tournois():
@@ -130,8 +149,7 @@ class WarhammerSelect(Select):
         user_id = str(interaction.user.id)
         
         # Vérifier si déjà inscrit
-        all_participants = tournoi["inscrits"] + tournoi["attente"]
-        if any(user_id in p for p in all_participants):
+        if _user_already_registered(tournoi, user_id):
             await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
             return
 
@@ -173,8 +191,7 @@ class FF14Select(Select):
             return
 
         user_id = str(interaction.user.id)
-        all_participants = tournoi["inscrits"] + tournoi["attente"]
-        if any(user_id in p for p in all_participants):
+        if _user_already_registered(tournoi, user_id):
             await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
             return
 
@@ -205,8 +222,7 @@ class TournoiView(View):
             return
 
         user_id = str(interaction.user.id)
-        all_participants = tournoi["inscrits"] + tournoi["attente"]
-        if any(user_id in p for p in all_participants):
+        if _user_already_registered(tournoi, user_id):
             await interaction.response.send_message("Tu es déjà inscrit !", ephemeral=True)
             return
         
@@ -243,7 +259,7 @@ class TournoiView(View):
         
         for lst in ["inscrits", "attente"]:
             for entry in tournoi[lst]:
-                if user_id in entry:
+                if _extract_user_id_from_entry(entry) == user_id:
                     tournoi[lst].remove(entry)
                     removed = True
                     break
@@ -312,7 +328,7 @@ async def update_message(interaction, message_id):
     Choice(name="⚔️ Warhammer (Multiformat)", value="warhammer"),
     Choice(name="🎮 FF14 (Rôles)", value="ff14")
 ])
-@commands.has_permissions(administrator=True)
+@app_commands.checks.has_permissions(administrator=True)
 async def creer_tournoi(interaction: discord.Interaction, template: Choice[str], titre: str, lieu: str, date: str, max_joueurs: int = None):
     
     if template.value == "standard":
@@ -373,4 +389,8 @@ async def on_ready():
 
 # ✅ LANCEMENT DU BOT AVEC KEEP-ALIVE
 keep_alive()
-bot.run(os.getenv('TON_TOKEN_ICI'))
+token = os.getenv("DISCORD_TOKEN") or os.getenv("TON_TOKEN_ICI")
+if not token:
+    raise RuntimeError("Token Discord introuvable. Définis DISCORD_TOKEN (ou TON_TOKEN_ICI).")
+
+bot.run(token)

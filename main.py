@@ -1,6 +1,6 @@
 import discord
 from discord import app_commands
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.ui import Button, View, Select
 from discord.app_commands import Choice
 import json
@@ -96,6 +96,90 @@ def nettoyer_anciens_evenements() -> None:
     if supprimes:
         print(f"🧹 {len(supprimes)} événement(s) supprimé(s), passés depuis plus de 30 jours.")
         sauvegarder_tournois()
+
+
+def _build_registered_mentions(tournoi: dict) -> str:
+    mentions = []
+    seen = set()
+
+    for entry in tournoi.get("inscrits", []):
+        user_id = _extract_user_id_from_entry(entry)
+        if user_id and user_id not in seen:
+            seen.add(user_id)
+            mentions.append(f"<@{user_id}>")
+
+    return " ".join(mentions)
+
+
+async def _resolve_event_channel(message_id: int, tournoi: dict) -> discord.TextChannel | None:
+    channel_id = tournoi.get("channel_id")
+    if channel_id:
+        channel = bot.get_channel(channel_id)
+        if isinstance(channel, discord.TextChannel):
+            return channel
+
+        try:
+            fetched = await bot.fetch_channel(channel_id)
+            if isinstance(fetched, discord.TextChannel):
+                return fetched
+        except Exception:
+            pass
+
+    for guild in bot.guilds:
+        for channel in guild.text_channels:
+            try:
+                await channel.fetch_message(message_id)
+                tournoi["channel_id"] = channel.id
+                return channel
+            except (discord.NotFound, discord.Forbidden):
+                continue
+            except Exception:
+                continue
+
+    return None
+
+
+@tasks.loop(minutes=1)
+async def verifier_rappels_evenements():
+    now = datetime.now()
+    changed = False
+
+    for message_id, tournoi in list(tournois.items()):
+        if tournoi.get("rappel_1h_envoye"):
+            continue
+
+        event_dt = _parse_event_datetime(tournoi.get("date"), tournoi.get("heure"))
+        if not event_dt:
+            continue
+
+        delta_seconds = (event_dt - now).total_seconds()
+        if delta_seconds < 0 or delta_seconds > 3600:
+            continue
+
+        channel = await _resolve_event_channel(message_id, tournoi)
+        if not channel:
+            continue
+
+        mentions = _build_registered_mentions(tournoi)
+        if not mentions:
+            tournoi["rappel_1h_envoye"] = True
+            changed = True
+            continue
+
+        await channel.send(
+            f"⏰ **Rappel :** l'événement **{tournoi.get('titre', 'sans titre')}** "
+            f"commence dans moins d'1 heure !\nParticipants inscrits : {mentions}"
+        )
+        tournoi["rappel_1h_envoye"] = True
+        changed = True
+
+    if changed:
+        sauvegarder_tournois()
+
+
+@verifier_rappels_evenements.before_loop
+async def before_verifier_rappels_evenements():
+    await bot.wait_until_ready()
 
 # --- PERSISTANCE ---
 def charger_tournois():
@@ -436,6 +520,8 @@ async def creer_tournoi(
         "lieu": lieu,
         "date": date,
         "heure": heure,
+        "channel_id": interaction.channel_id,
+        "rappel_1h_envoye": False,
         "max_joueurs": max_joueurs,
         "inscrits": [],
         "attente": [],
@@ -451,6 +537,9 @@ async def on_ready():
     # Réattacher les views aux messages existants
     for msg_id in tournois:
         bot.add_view(TournoiView(msg_id))
+
+    if not verifier_rappels_evenements.is_running():
+        verifier_rappels_evenements.start()
     
     await bot.tree.sync()
     print(f"🚀 Bot en ligne : {bot.user}")

@@ -6,6 +6,7 @@ from discord.app_commands import Choice
 import json
 import os
 import re
+from datetime import datetime, timedelta
 from flask import Flask
 from threading import Thread
 from dotenv import load_dotenv
@@ -43,6 +44,59 @@ def _user_already_registered(tournoi: dict, user_id: str) -> bool:
     all_participants = tournoi["inscrits"] + tournoi["attente"]
     return any(_extract_user_id_from_entry(entry) == user_id for entry in all_participants)
 
+
+def _parse_event_datetime(date_value: str | None, heure_value: str | None = None) -> datetime | None:
+    if not date_value:
+        return None
+
+    text = str(date_value).strip()
+    if not text:
+        return None
+
+    hour = 0
+    minute = 0
+
+    time_match = re.search(r"(\d{1,2})\s*(?:h|:)(\d{1,2})?", text, flags=re.IGNORECASE)
+    if time_match:
+        hour = int(time_match.group(1))
+        minute = int(time_match.group(2) or 0)
+        text = text[:time_match.start()] + text[time_match.end():]
+    elif heure_value:
+        heure_match = re.search(r"(\d{1,2})\s*(?:h|:)(\d{1,2})?", str(heure_value), flags=re.IGNORECASE)
+        if heure_match:
+            hour = int(heure_match.group(1))
+            minute = int(heure_match.group(2) or 0)
+
+    parts = re.findall(r"\d+", text)
+    if len(parts) < 2:
+        return None
+
+    day = int(parts[0])
+    month = int(parts[1])
+    year = int(parts[2]) if len(parts) >= 3 else datetime.now().year
+    if year < 100:
+        year += 2000
+
+    try:
+        return datetime(year, month, day, hour, minute)
+    except ValueError:
+        return None
+
+
+def nettoyer_anciens_evenements() -> None:
+    seuil = datetime.now() - timedelta(days=30)
+    supprimes = []
+
+    for msg_id, tournoi in list(tournois.items()):
+        evenement_dt = _parse_event_datetime(tournoi.get("date"), tournoi.get("heure"))
+        if evenement_dt and evenement_dt < seuil:
+            del tournois[msg_id]
+            supprimes.append(msg_id)
+
+    if supprimes:
+        print(f"🧹 {len(supprimes)} événement(s) supprimé(s), passés depuis plus de 30 jours.")
+        sauvegarder_tournois()
+
 # --- PERSISTANCE ---
 def charger_tournois():
     global tournois
@@ -55,6 +109,7 @@ def charger_tournois():
             with open(TOURNOIS_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 tournois = {int(k): v for k, v in data.items()}
+                nettoyer_anciens_evenements()
                 print(f"✅ {len(tournois)} tournois chargés.")
         except Exception as e:
             tournois = {}

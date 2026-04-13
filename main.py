@@ -341,6 +341,8 @@ async def update_message(interaction, message_id):
         embed = discord.Embed(title=tournoi['titre'], color=tournoi.get('color', 0x3498db))
         embed.add_field(name="📍 Lieu", value=tournoi["lieu"], inline=True)
         embed.add_field(name="📅 Date", value=tournoi["date"], inline=True)
+        if tournoi.get("heure"):
+            embed.add_field(name="⏰ Heure", value=tournoi["heure"], inline=True)
         
         max_d = "∞" if tournoi['max_joueurs'] is None else str(tournoi['max_joueurs'])
         embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{max_d}", inline=False)
@@ -376,7 +378,8 @@ async def update_message(interaction, message_id):
     titre="Nom de l'event", 
     lieu="Lieu", 
     date="Date", 
-    max_joueurs="Places max (laisser vide = illimité)"
+    max_joueurs="Places max (laisser vide = illimité)",
+    heure="Heure (optionnel, ex: 19h ou 19h30)"
 )
 @app_commands.choices(template=[
     Choice(name="🏆 Tournoi (Standard / Jeu unique)", value="standard"),
@@ -384,7 +387,15 @@ async def update_message(interaction, message_id):
     Choice(name="🎮 FF14 (Rôles)", value="ff14")
 ])
 @app_commands.checks.has_permissions(administrator=True)
-async def creer_tournoi(interaction: discord.Interaction, template: Choice[str], titre: str, lieu: str, date: str, max_joueurs: int = None):
+async def creer_tournoi(
+    interaction: discord.Interaction,
+    template: Choice[str],
+    titre: str,
+    lieu: str,
+    date: str,
+    max_joueurs: int = None,
+    heure: str = None
+):
     
     if template.value == "standard":
         full_title = f"🏆 {titre}"
@@ -399,6 +410,8 @@ async def creer_tournoi(interaction: discord.Interaction, template: Choice[str],
     embed = discord.Embed(title=full_title, color=color)
     embed.add_field(name="📍 Lieu", value=lieu, inline=True)
     embed.add_field(name="📅 Date", value=date, inline=True)
+    if heure:
+        embed.add_field(name="⏰ Heure", value=heure, inline=True)
     embed.add_field(name="👥 Inscrits", value=f"0/{(max_joueurs or '∞')}", inline=False)
     
     if template.value == "warhammer":
@@ -422,6 +435,7 @@ async def creer_tournoi(interaction: discord.Interaction, template: Choice[str],
         "titre": full_title,
         "lieu": lieu,
         "date": date,
+        "heure": heure,
         "max_joueurs": max_joueurs,
         "inscrits": [],
         "attente": [],

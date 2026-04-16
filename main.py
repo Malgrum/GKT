@@ -148,7 +148,22 @@ async def verifier_rappels_evenements():
         if tournoi.get("rappel_1h_envoye"):
             continue
 
-        event_dt = _parse_event_datetime(tournoi.get("date"), tournoi.get("heure"))
+        date_value = tournoi.get("date")
+        heure_value = tournoi.get("heure")
+
+        has_time_in_date = bool(
+            re.search(r"(\d{1,2})\s*(?:h|:)(\d{1,2})?", str(date_value), flags=re.IGNORECASE)
+        )
+        has_time_in_heure = bool(
+            heure_value
+            and re.search(r"(\d{1,2})\s*(?:h|:)(\d{1,2})?", str(heure_value), flags=re.IGNORECASE)
+        )
+
+        # Pas d'heure explicite => pas de rappel automatique.
+        if not has_time_in_date and not has_time_in_heure:
+            continue
+
+        event_dt = _parse_event_datetime(date_value, heure_value)
         if not event_dt:
             continue
 

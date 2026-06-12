@@ -1,0 +1,755 @@
+{
+  "1485212359453577296": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] test",
+    "lieu": "gkj",
+    "date": "22",
+    "max_joueurs": null,
+    "inscrits": [
+      "<@333577395460112389> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1489459597218549820": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Live react fanfest new extension",
+    "lieu": "guilde",
+    "date": "24/04/2026. 19h",
+    "max_joueurs": 99,
+    "inscrits": [
+      "<@1447284341872001056> (Tout Role)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@1448015771535015987> (Tout Role)",
+      "<@779001479730167808> (Tout Role)",
+      "<@286175658965598208> (Tout Role)",
+      "<@194174585711624193> (Tout Role)",
+      "<@1334059626483814474> (DPS)",
+      "<@1197612158641520674> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true
+  },
+  "1494993912736120923": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] pvp",
+    "lieu": "eorzea",
+    "date": "20/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@668907443140558849> (TANK)",
+      "<@194174585711624193> (DPS)",
+      "<@1334059626483814474> (DPS)",
+      "<@273048363274862592> (HEALER)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1495694221611503697": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au trésor glaucus",
+    "lieu": "World",
+    "date": "21/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@1334059626483814474> (DPS)",
+      "<@194174585711624193> (TANK)",
+      "<@235715636368637952> (DPS)",
+      "<@412517272611979264> (Tout Role)",
+      "<@282054458563756032> (DPS)",
+      "<@273048363274862592> (HEALER)",
+      "<@1485581546135093298> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1495695157604122735": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au trésor gargantua ( dawntrail )",
+    "lieu": "World",
+    "date": "25/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@235715636368637952> (DPS)",
+      "<@1485581546135093298> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1495695710887346247": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Welcome To Eureka ( Kugane)",
+    "lieu": "World",
+    "date": "23/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 99,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@194174585711624193> (TANK)",
+      "<@235715636368637952> (BENCH)",
+      "<@1334059626483814474> (HEALER)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1496419602026987521": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] rôle play plus de détails MP ryuhno.",
+    "lieu": "limsa",
+    "date": "22/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (Tout Role)",
+      "<@1448015771535015987> (Tout Role)",
+      "<@1334059626483814474> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1496588258925088778": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] initiation rôle playing à limsa",
+    "lieu": "limsa",
+    "date": "27/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (TANK)",
+      "<@668907443140558849> (TANK)",
+      "<@1334059626483814474> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1496614600861421670": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Decouverte du Beast Master ( leveling + 1ere capture etc )",
+    "lieu": "limsa",
+    "date": "29/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 99,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@194174585711624193> (TANK)",
+      "<@668907443140558849> (TANK)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@286175658965598208> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1497317486138495156": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Decouverte du 3eme raid dawntrail en alliance",
+    "lieu": "limsa",
+    "date": "29/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@235715636368637952> (DPS)",
+      "<@194174585711624193> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1497667015006093402": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au trésor gargantua (dawntrail)",
+    "lieu": "limsa",
+    "date": "30/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@235715636368637952> (DPS)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@779001479730167808> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1497725272756195595": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Defilé glam sur le theme du japon 🇯🇵",
+    "lieu": "Shirogane",
+    "date": "02/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 99,
+    "inscrits": [
+      "<@254349211259240450> (Tout Role)",
+      "<@194174585711624193> (Tout Role)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@1334059626483814474> (Tout Role)",
+      "<@779001479730167808> (BENCH)",
+      "<@1197612158641520674> (Tout Role)",
+      "<@1447284341872001056> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1498229662592270347": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Déblocage Raid NieR",
+    "lieu": "Shirogane",
+    "date": "30/04/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 24,
+    "inscrits": [
+      "<@280011356638281730> (Tout Role)",
+      "<@194174585711624193> (TANK)",
+      "<@1334059626483814474> (Tout Role)",
+      "<@779001479730167808> (BENCH)",
+      "<@412517272611979264> (DPS)",
+      "<@802990375589117962> (TANK)",
+      "<@877326063187947560> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1499140748895977543": {
+    "type": "standard",
+    "titre": "🏆 <@235715636368637952>",
+    "lieu": "discord",
+    "date": "29/04/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": 1,
+    "inscrits": [],
+    "attente": [],
+    "color": 3447003
+  },
+  "1499143160419324025": {
+    "type": "standard",
+    "titre": "🏆 tournoi epitech",
+    "lieu": "epitech",
+    "date": "3 mai 2026 à 11h",
+    "heure": "11h",
+    "channel_id": 984179828628529212,
+    "rappel_1h_envoye": false,
+    "max_joueurs": 20,
+    "inscrits": [
+      "<@198193542085083137>"
+    ],
+    "attente": [],
+    "color": 3447003
+  },
+  "1499468967708987532": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] patrouille (Rôles play)",
+    "lieu": "costal del sol",
+    "date": "1/05/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (TANK)",
+      "<@1334059626483814474> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1499518297643810936": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] 2ème Raid NieR",
+    "lieu": "Shirogane",
+    "date": "04/05/2026",
+    "heure": "21h00",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 24,
+    "inscrits": [
+      "<@280011356638281730> (Tout Role)",
+      "<@1334059626483814474> (DPS)",
+      "<@194174585711624193> (DPS)",
+      "<@877326063187947560> (DPS)",
+      "<@802990375589117962> (TANK)",
+      "<@412517272611979264> (DPS)",
+      "<@282054458563756032> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1500454995663786057": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] patrouille costa del sol rôle play (alea)",
+    "lieu": "eorzea",
+    "date": "4/05/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (TANK)",
+      "<@1334059626483814474> (Tout Role)",
+      "<@668907443140558849> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1500516842601451670": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au trésor Ophiotauros (Endwalker )",
+    "lieu": "Elpis",
+    "date": "09/05/2026",
+    "heure": "21h00",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@235715636368637952> (DPS)",
+      "<@412517272611979264> (DPS)",
+      "<@1485581546135093298> (HEALER)",
+      "<@282054458563756032> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1500677697376882860": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Front pvp",
+    "lieu": "Au front",
+    "date": "06/05/2026",
+    "heure": "21h00",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 24,
+    "inscrits": [
+      "<@286175658965598208> (TANK)",
+      "<@668907443140558849> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1501159160417353779": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Déblocage raid Alexander",
+    "lieu": "Shirogane",
+    "date": "05/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@280011356638281730> (Tout Role)",
+      "<@286175658965598208> (TANK)",
+      "<@194174585711624193> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1501919057031725107": {
+    "type": "warhammer",
+    "titre": "⚔️ [WARHAMMER] ExterminaDooz",
+    "lieu": "Dooz, 12 rue des magasins, Strasbourg",
+    "date": "10/05/2026",
+    "heure": "14h",
+    "channel_id": 1413621895668175040,
+    "rappel_1h_envoye": true,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@333577395460112389> (40K)",
+      "<@640247911195607041> (40K, KT)",
+      "<@284676832270483457> (40K)",
+      "<@892090404135112704> (40K)"
+    ],
+    "attente": [],
+    "color": 2899536
+  },
+  "1502059516798304327": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Déblocage Raid en alliance Havensword",
+    "lieu": "Shirogane",
+    "date": "08/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 24,
+    "inscrits": [
+      "<@286175658965598208> (Tout Role)",
+      "<@280011356638281730> (TANK)",
+      "<@802990375589117962> (TANK)",
+      "<@877326063187947560> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1502415293882962060": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Débloquage Raid en alliance Havensword",
+    "lieu": "Shirogane",
+    "date": "11/05/2026",
+    "heure": "21h30",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 24,
+    "inscrits": [
+      "<@280011356638281730> (TANK)",
+      "<@877326063187947560> (DPS)",
+      "<@802990375589117962> (DPS)",
+      "<@286175658965598208> (DPS)",
+      "<@1334059626483814474> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1502786069618360421": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au tresor endwalker",
+    "lieu": "Shirogane",
+    "date": "16/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1502786644674351164": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au tresor dawntrail",
+    "lieu": "Shirogane",
+    "date": "16/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@1485581546135093298> (HEALER)",
+      "<@235715636368637952> (DPS)",
+      "<@779001479730167808> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1502794433484161115": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au tresor endwalker",
+    "lieu": "Shirogane",
+    "date": "15/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@194174585711624193> (TANK)",
+      "<@1485581546135093298> (HEALER)",
+      "<@235715636368637952> (DPS)",
+      "<@1334059626483814474> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1502797115842232562": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] rôles play",
+    "lieu": "eorzea",
+    "date": "13/05/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (Tout Role)",
+      "<@1334059626483814474> (Tout Role)",
+      "<@254349211259240450> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1504228752341598441": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] rôle play",
+    "lieu": "eorzea",
+    "date": "14/05/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (TANK)",
+      "<@668907443140558849> (TANK)",
+      "<@1334059626483814474> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1506605970854383677": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse aux trésors Endwalker",
+    "lieu": "Shirogane",
+    "date": "21/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@280011356638281730> (DPS)",
+      "<@194174585711624193> (TANK)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@235715636368637952> (DPS)",
+      "<@1334059626483814474> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1506606475764568124": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Raid en alliance Dawntrail",
+    "lieu": "Shirogane",
+    "date": "22/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 24,
+    "inscrits": [
+      "<@280011356638281730> (DPS)",
+      "<@194174585711624193> (DPS)",
+      "<@235715636368637952> (DPS)",
+      "<@779001479730167808> (BENCH)",
+      "<@1485581546135093298> (BENCH)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1506672269907333171": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Clear les raids eden en sadique  (shadowbringer )",
+    "lieu": "Paradis",
+    "date": "23/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@779001479730167808> (TANK)",
+      "<@235715636368637952> (DPS)",
+      "<@802990375589117962> (DPS)",
+      "<@877326063187947560> (DPS)",
+      "<@1485581546135093298> (HEALER)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1507424775918850118": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] initiation rôle play (farm alea ou donjon)",
+    "lieu": "guilde",
+    "date": "24/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@194174585711624193> (TANK)",
+      "<@280011356638281730> (Tout Role)",
+      "<@254349211259240450> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1508426221900267620": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Carte au tresor dawntrail",
+    "lieu": "guilde",
+    "date": "30/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@235715636368637952> (DPS)",
+      "<@280011356638281730> (DPS)",
+      "<@1485581546135093298> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1509605096957411450": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Clear les raids eden en sadique  (shadowbringer )",
+    "lieu": "Paradis",
+    "date": "05/06/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@280011356638281730> (DPS)",
+      "<@235715636368637952> (DPS)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@194174585711624193> (TANK)",
+      "<@1334059626483814474> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1510097265782427778": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Deblocage raid heavensword",
+    "lieu": "Alexandre",
+    "date": "31/05/2026",
+    "heure": "21h",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": true,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@280011356638281730> (BENCH)",
+      "<@195073361896800256> (DPS)",
+      "<@1485581546135093298> (BENCH)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1510953939468681246": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] alea (Rôles play)",
+    "lieu": "eorzea",
+    "date": "03/06/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@280011356638281730> (Tout Role)",
+      "<@194174585711624193> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1511028777453486141": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Carte au trésor endwalker ( ophiotauros)",
+    "lieu": "eorzea",
+    "date": "06/06/2026",
+    "heure": "21",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@235715636368637952> (DPS)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@194174585711624193> (TANK)",
+      "<@1334059626483814474> (DPS)",
+      "<@779001479730167808> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1512543701895872732": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] initiations rôle play (alea)",
+    "lieu": "eorzea",
+    "date": "10/06/2026",
+    "heure": null,
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": null,
+    "inscrits": [
+      "<@280011356638281730> (DPS)",
+      "<@1334059626483814474> (DPS)",
+      "<@194174585711624193> (TANK)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1513218759635108001": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Raids alliance dawntrail",
+    "lieu": "eorzea",
+    "date": "13/06/2026",
+    "heure": "21",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@194174585711624193> (DPS)",
+      "<@1485581546135093298> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1514689184244170762": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au tresor Heavensword",
+    "lieu": "eorzea",
+    "date": "12/06/2026",
+    "heure": "21",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@252507690746511361> (DPS)",
+      "<@194174585711624193> (TANK)",
+      "<@779001479730167808> (Tout Role)",
+      "<@1334059626483814474> (Tout Role)",
+      "<@1197612158641520674> (DPS)",
+      "<@254349211259240450> (DPS)",
+      "<@1485581546135093298> (Tout Role)",
+      "<@162927893024866304> (DPS)"
+    ],
+    "attente": [],
+    "color": 7101671
+  },
+  "1514689246852550780": {
+    "type": "ff14",
+    "titre": "🎮 [FF14] Chasse au tresor Stormblood",
+    "lieu": "eorzea",
+    "date": "13/06/2026",
+    "heure": "21",
+    "channel_id": 1433102607043264556,
+    "rappel_1h_envoye": false,
+    "max_joueurs": 8,
+    "inscrits": [
+      "<@1447284341872001056> (DPS)",
+      "<@194174585711624193> (TANK)",
+      "<@779001479730167808> (Tout Role)",
+      "<@1334059626483814474> (Tout Role)",
+      "<@254349211259240450> (DPS)",
+      "<@1485581546135093298> (Tout Role)"
+    ],
+    "attente": [],
+    "color": 7101671
+  }
+}

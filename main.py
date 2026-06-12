@@ -260,6 +260,7 @@ def generer_tableau_ff14(tournoi):
         "TANK": {"emoji": "🛡️", "joueurs": []},
         "Tout Role": {"emoji": "🎮", "joueurs": []},
         "BENCH": {"emoji": "🪑", "joueurs": []}
+        "Pas Dispo": {"emoji": "❌", "joueurs": []}
     }
 
     for entry in tournoi["inscrits"]:
@@ -329,6 +330,7 @@ class FF14Select(Select):
             discord.SelectOption(label="TANK", emoji="🛡️", value="TANK"),
             discord.SelectOption(label="Tout Role", emoji="🎮", value="Tout Role"),
             discord.SelectOption(label="BENCH", emoji="🪑", value="BENCH"),
+            discord.SelectOption(label="Pas Dispo", emoji="❌", value="Pas Dispo")
         ]
         super().__init__(
             placeholder="Choisissez votre rôle...",

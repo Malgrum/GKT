@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import discord
 
-from .formatting import generer_tableau_ff14, generer_tableau_warhammer
+from .formatting import generer_tableau_ff14, generer_tableau_warhammer, count_valid_inscriptions
 from .state import tournois
 from .views import TournoiView
 
@@ -20,7 +20,7 @@ async def update_message(interaction: discord.Interaction, message_id: int) -> N
             embed.add_field(name="⏰ Heure", value=tournoi["heure"], inline=True)
 
         max_display = "∞" if tournoi["max_joueurs"] is None else str(tournoi["max_joueurs"])
-        embed.add_field(name="👥 Inscrits", value=f"{len(tournoi['inscrits'])}/{max_display}", inline=False)
+        embed.add_field(name="👥 Inscrits", value=f"{count_valid_inscriptions(tournoi['inscrits'])}/{max_display}", inline=False)
 
         if tournoi.get("type") == "warhammer":
             embed.add_field(name="⚔️ Répartition par jeu", value=generer_tableau_warhammer(tournoi), inline=False)

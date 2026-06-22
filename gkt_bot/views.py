@@ -3,7 +3,7 @@ from __future__ import annotations
 import discord
 from discord.ui import Select, View
 
-from .formatting import extract_user_id_from_entry, user_already_registered
+from .formatting import extract_user_id_from_entry, user_already_registered, count_valid_inscriptions
 from .state import tournois
 from .storage import sauvegarder_tournois
 
@@ -37,7 +37,7 @@ class WarhammerSelect(Select):
         choices_str = ", ".join(self.values)
         user_entry = f"{interaction.user.mention} ({choices_str})"
 
-        if tournoi["max_joueurs"] is None or len(tournoi["inscrits"]) < tournoi["max_joueurs"]:
+        if tournoi["max_joueurs"] is None or count_valid_inscriptions(tournoi["inscrits"]) < tournoi["max_joueurs"]:
             tournoi["inscrits"].append(user_entry)
             await interaction.response.send_message(f"✅ Inscrit en : **{choices_str}** !", ephemeral=True)
         else:
@@ -83,7 +83,7 @@ class FF14Select(Select):
         role = self.values[0]
         user_entry = f"{interaction.user.mention} ({role})"
 
-        if tournoi["max_joueurs"] is None or len(tournoi["inscrits"]) < tournoi["max_joueurs"]:
+        if tournoi["max_joueurs"] is None or count_valid_inscriptions(tournoi["inscrits"]) < tournoi["max_joueurs"]:
             tournoi["inscrits"].append(user_entry)
             await interaction.response.send_message(f"✅ Inscrit en : **{role}** !", ephemeral=True)
         else:
@@ -127,7 +127,7 @@ class TournoiView(View):
             return
 
         user_mention = interaction.user.mention
-        if tournoi["max_joueurs"] is None or len(tournoi["inscrits"]) < tournoi["max_joueurs"]:
+        if tournoi["max_joueurs"] is None or count_valid_inscriptions(tournoi["inscrits"]) < tournoi["max_joueurs"]:
             tournoi["inscrits"].append(user_mention)
             await interaction.response.send_message("✅ Inscription réussie !", ephemeral=True)
         else:
@@ -163,7 +163,7 @@ class TournoiView(View):
             await interaction.response.send_message("❌ Tu n'es pas inscrit.", ephemeral=True)
             return
 
-        if tournoi["attente"] and len(tournoi["inscrits"]) < (tournoi["max_joueurs"] or 9999):
+        if tournoi["attente"] and count_valid_inscriptions(tournoi["inscrits"]) < (tournoi["max_joueurs"] or 9999):
             tournoi["inscrits"].append(tournoi["attente"].pop(0))
 
         await interaction.response.send_message("✅ Désinscrit avec succès.", ephemeral=True)

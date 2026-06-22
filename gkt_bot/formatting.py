@@ -14,6 +14,11 @@ def user_already_registered(tournoi: dict, user_id: str) -> bool:
     return any(extract_user_id_from_entry(entry) == user_id for entry in all_participants)
 
 
+def count_valid_inscriptions(inscrits: list[str]) -> int:
+    """Compte les inscriptions valides, en excluant les 'Pas Dispo'."""
+    return sum(1 for entry in inscrits if "(Pas Dispo)" not in entry)
+
+
 def parse_event_datetime(date_value: str | None, heure_value: str | None = None) -> datetime | None:
     if not date_value:
         return None

@@ -101,9 +101,26 @@ class TournoiView(View):
     def __init__(self, message_id: int):
         super().__init__(timeout=None)
         self.message_id = message_id
+        
+        # Créer le bouton Rejoindre avec un custom_id unique
+        join_button = discord.ui.Button(
+            label="✅ Rejoindre",
+            style=discord.ButtonStyle.green,
+            custom_id=f"join_{message_id}"
+        )
+        join_button.callback = self.rejoindre
+        self.add_item(join_button)
+        
+        # Créer le bouton Se désinscrire avec un custom_id unique
+        leave_button = discord.ui.Button(
+            label="❌ Se désinscrire",
+            style=discord.ButtonStyle.red,
+            custom_id=f"leave_{message_id}"
+        )
+        leave_button.callback = self.desinscrire
+        self.add_item(leave_button)
 
-    @discord.ui.button(label="✅ Rejoindre", style=discord.ButtonStyle.green, custom_id="join_btn")
-    async def rejoindre(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def rejoindre(self, interaction: discord.Interaction):
         tournoi = tournois.get(self.message_id)
         if not tournoi:
             await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
@@ -140,8 +157,7 @@ class TournoiView(View):
 
         await update_message(interaction, self.message_id)
 
-    @discord.ui.button(label="❌ Se désinscrire", style=discord.ButtonStyle.red, custom_id="leave_btn")
-    async def desinscrire(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def desinscrire(self, interaction: discord.Interaction):
         tournoi = tournois.get(self.message_id)
         if not tournoi:
             await interaction.response.send_message("Tournoi introuvable.", ephemeral=True)
